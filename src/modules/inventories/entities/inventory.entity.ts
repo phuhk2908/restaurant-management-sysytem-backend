@@ -4,8 +4,8 @@ import { Entity, PrimaryGeneratedColumn, ManyToOne, Column } from 'typeorm';
 // inventory.entity.ts
 @Entity()
 export class Inventory {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @ManyToOne(() => Ingredient, (ingredient) => ingredient.inventories)
   ingredient: Ingredient;

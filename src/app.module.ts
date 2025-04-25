@@ -9,10 +9,12 @@ import { InventoriesModule } from './modules/inventories/inventories.module';
 import { OrdersModule } from './modules/orders/orders.module';
 import { TablesModule } from './modules/tables/tables.module';
 import { OrderItemsModule } from './modules/order-items/order-items.module';
-import { RecipeMaterialsModule } from './modules/recipe-materials/recipe-materials.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { typeOrmConfig } from './config/database.config';
 
 @Module({
   imports: [
+    TypeOrmModule.forRoot(typeOrmConfig),
     UsersModule,
     FoodItemsModule,
     RecipesModule,
@@ -21,7 +23,6 @@ import { RecipeMaterialsModule } from './modules/recipe-materials/recipe-materia
     OrdersModule,
     TablesModule,
     OrderItemsModule,
-    RecipeMaterialsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

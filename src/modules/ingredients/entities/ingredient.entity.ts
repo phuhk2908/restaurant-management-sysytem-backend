@@ -2,20 +2,34 @@ import { Inventory } from 'src/modules/inventories/entities/inventory.entity';
 import { RecipeIngredient } from 'src/modules/recipes/entities/recipe-ingredient.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
+export enum Unit {
+  GRAM = 'g',
+  KILOGRAM = 'kg',
+  LITER = 'l',
+  MILLILITER = 'ml',
+  PEICES = 'pieces',
+}
+
 @Entity()
 export class Ingredient {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    name: string;
+  @Column()
+  name: string;
 
-    @Column()
-    unit: string; // e.g., kg, g, l, ml, pieces
+  @Column({ enum: Unit })
+  unit: Unit;
 
-    @OneToMany(() => RecipeIngredient, (recipeIngredient) => recipeIngredient.material)
-    recipeIngredients: RecipeIngredient[];
+  @Column({ nullable: true })
+  category: string; // e.g., dairy, meat, vegetable, spice
 
-    @OneToMany(() => Inventory, (inventory) => inventory.material)
-    inventories: Inventory[];
+  @OneToMany(
+    () => RecipeIngredient,
+    (recipeIngredient) => recipeIngredient.ingredient,
+  )
+  recipeIngredients: RecipeIngredient[];
+
+  @OneToMany(() => Inventory, (inventory) => inventory.ingredient)
+  inventories: Inventory[];
 }

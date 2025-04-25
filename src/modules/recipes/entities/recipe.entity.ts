@@ -7,12 +7,12 @@ import {
   Column,
   OneToMany,
 } from 'typeorm';
-import { RecipeMaterial } from './recipe-ingredient.entity';
+import { RecipeIngredient } from './recipe-ingredient.entity';
 
 @Entity()
 export class Recipe {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @OneToOne(() => FoodItem, (foodItem) => foodItem.recipe)
   @JoinColumn()
@@ -24,6 +24,9 @@ export class Recipe {
   @Column('int')
   preparationTime: number; // in minutes
 
-  @OneToMany(() => RecipeMaterial, (recipeMaterial) => recipeMaterial.recipe)
-  recipeMaterials: RecipeMaterial[];
+  @OneToMany(
+    () => RecipeIngredient,
+    (recipeIngredient) => recipeIngredient.recipe,
+  )
+  recipeIngredients: RecipeIngredient[];
 }

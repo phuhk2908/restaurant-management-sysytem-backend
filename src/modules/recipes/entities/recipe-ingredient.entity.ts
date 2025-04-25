@@ -4,15 +4,15 @@ import { Recipe } from './recipe.entity';
 
 @Entity()
 export class RecipeIngredient {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @ManyToOne(() => Recipe, (recipe) => recipe.recipeMaterials)
-    recipe: Recipe;
+  @ManyToOne(() => Recipe, (recipe) => recipe.recipeIngredients)
+  recipe: Recipe;
 
-    @ManyToOne(() => Ingredient, (ingredient) => ingredient.recipeIngredients)
-    ingredient: Ingredient;
+  @ManyToOne(() => Ingredient, (ingredient) => ingredient.recipeIngredients)
+  ingredient: Ingredient;
 
-    @Column('decimal', { precision: 10, scale: 2 })
-    quantity: number;
+  @Column('decimal', { precision: 10, scale: 2 })
+  quantity: number;
 }
