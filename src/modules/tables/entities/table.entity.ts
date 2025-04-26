@@ -1,6 +1,13 @@
 import { Order } from 'src/modules/orders/entities/order.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
+export enum TableStatus {
+  AVAILABLE = 'available',
+  OCCUPIED = 'occupied',
+  RESERVED = 'reserved',
+  CLEANING = 'cleaning',
+}
+
 @Entity()
 export class Table {
   @PrimaryGeneratedColumn('uuid')
@@ -14,13 +21,17 @@ export class Table {
 
   @Column({
     type: 'enum',
-    enum: ['available', 'occupied', 'reserved', 'cleaning'],
+    enum: TableStatus,
+    default: TableStatus.AVAILABLE,
   })
-  status: string;
+  status: TableStatus;
 
   @Column({ default: 2 })
   capacity: number;
 
   @OneToMany(() => Order, (order) => order.table)
   orders: Order[];
+
+  @Column({ nullable: true })
+  reservationId: string;
 }

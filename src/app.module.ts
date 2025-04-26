@@ -11,6 +11,8 @@ import { TablesModule } from './modules/tables/tables.module';
 import { OrderItemsModule } from './modules/order-items/order-items.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmConfig } from './config/database.config';
+import { NotificationsModule } from './modules/notifications/notifications.module';
+import { ReservationsModule } from './modules/reservations/reservations.module';
 
 @Module({
   imports: [
@@ -23,6 +25,8 @@ import { typeOrmConfig } from './config/database.config';
     OrdersModule,
     TablesModule,
     OrderItemsModule,
+    NotificationsModule,
+    ReservationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -10,13 +10,22 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+export enum OrderStatus {
+  PENDING = 'pending',
+  PREPARING = 'preparing',
+  READY = 'ready',
+  SERVED = 'served',
+  COMPLETED = 'completed',
+  CANCELLED = 'cancelled',
+}
+
 @Entity()
 export class Order {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({ nullable: true })
-  tableId: number;
+  tableId: string;
 
   @ManyToOne(() => Table, (table) => table.orders, { nullable: true })
   table: Table;
@@ -29,9 +38,9 @@ export class Order {
 
   @Column({
     type: 'enum',
-    enum: ['pending', 'preparing', 'ready', 'served', 'completed', 'cancelled'],
+    enum: OrderStatus,
   })
-  status: string;
+  status: OrderStatus;
 
   @Column({ type: 'enum', enum: ['dine-in', 'takeaway', 'delivery'] })
   type: string;

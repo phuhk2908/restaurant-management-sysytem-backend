@@ -38,9 +38,9 @@ export class IngredientsService {
     });
   }
 
-  async findOne(id: number): Promise<Ingredient | null> {
+  async findOne(id: string): Promise<Ingredient | null> {
     return this.ingredientRepository.findOne({
-      where: { id },
+      where: { id: id },
       relations: [
         'inventories',
         'recipeIngredients',
@@ -50,14 +50,14 @@ export class IngredientsService {
   }
 
   async update(
-    id: number,
+    id: string,
     updateIngredientDto: UpdateIngredientDto,
   ): Promise<Ingredient | null> {
     await this.ingredientRepository.update(id, updateIngredientDto);
     return this.ingredientRepository.findOne({ where: { id } });
   }
 
-  async remove(id: number): Promise<void> {
+  async remove(id: string): Promise<void> {
     // Check if ingredient is used in any recipes
     const ingredient = await this.ingredientRepository.findOne({
       where: { id },

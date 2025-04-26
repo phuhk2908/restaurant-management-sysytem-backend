@@ -4,8 +4,8 @@ import { Recipe } from './recipe.entity';
 
 @Entity()
 export class RecipeIngredient {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @ManyToOne(() => Recipe, (recipe) => recipe.recipeIngredients)
   recipe: Recipe;

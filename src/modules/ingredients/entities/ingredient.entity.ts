@@ -12,8 +12,8 @@ export enum Unit {
 
 @Entity()
 export class Ingredient {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   name: string;

@@ -35,7 +35,7 @@ export class RecipesService {
     }
 
     const ingredient = await this.ingredientRepository.findOne({
-      where: { id: +addIngredientToRecipeDto.ingredientId },
+      where: { id: addIngredientToRecipeDto.ingredientId },
     });
     if (!ingredient) {
       throw new Error('Ingredient not found');
