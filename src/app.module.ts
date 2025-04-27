@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './modules/users/users.module';
@@ -13,10 +13,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmConfig } from './config/database.config';
 import { NotificationsModule } from './modules/notifications/notifications.module';
 import { ReservationsModule } from './modules/reservations/reservations.module';
+import { AuthModule } from './modules/auth/auth.module';
+import * as cookieParser from 'cookie-parser';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot(typeOrmConfig),
+    ConfigModule.forRoot({ isGlobal: true }),
+    TypeOrmModule.forRootAsync(typeOrmConfig),
     UsersModule,
     FoodItemsModule,
     RecipesModule,
@@ -27,8 +31,13 @@ import { ReservationsModule } from './modules/reservations/reservations.module';
     OrderItemsModule,
     NotificationsModule,
     ReservationsModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(cookieParser()).forRoutes('*');
+  }
+}
