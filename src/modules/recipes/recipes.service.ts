@@ -6,6 +6,7 @@ import { RecipeIngredient } from './entities/recipe-ingredient.entity';
 import { Ingredient } from '../ingredients/entities/ingredient.entity';
 import { CreateRecipeDto } from './dtos/create-recipe.dto';
 import { AddIngredientToRecipeDto } from './dtos/add-ingredient-to-recipe.dto';
+import { FoodItem } from '../food-items/entities/food-item.entity';
 
 @Injectable()
 export class RecipesService {
@@ -16,11 +17,21 @@ export class RecipesService {
     private readonly recipeIngredientRepository: Repository<RecipeIngredient>,
     @InjectRepository(Ingredient)
     private readonly ingredientRepository: Repository<Ingredient>,
+    @InjectRepository(FoodItem)
+    private readonly foodItemRepository: Repository<FoodItem>,
   ) {}
 
   async createRecipe(createRecipeDto: CreateRecipeDto): Promise<Recipe> {
-    const { ingredients, ...recipeData } = createRecipeDto;
-    const recipe = this.recipeRepository.create(recipeData);
+    const { ingredients, foodItemId, ...recipeData } = createRecipeDto;
+
+    const foodItem = await this.foodItemRepository.findOne({
+      where: { id: foodItemId },
+    });
+    if (!foodItem) {
+      throw new Error('Food item not found');
+    }
+
+    const recipe = this.recipeRepository.create({ ...recipeData, foodItem });
     await this.recipeRepository.save(recipe);
 
     for (const ingredient of ingredients) {
