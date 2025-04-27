@@ -22,8 +22,17 @@ export class CreateRecipeDto {
   id: string;
 
   @ApiProperty({
-    example: '321e4567-e89b-12d3-a456-426614174000',
-    description: 'ID of the food item',
+    example: {
+      id: '321e4567-e89b-12d3-a456-426614174000',
+      name: 'Pizza',
+      description: 'Delicious cheese pizza',
+      price: 9.99,
+      category: 'Main Course',
+      isAvailable: true,
+      imageUrl: 'https://example.com/image.jpg',
+    },
+    description: 'Food item object for the recipe',
+    type: () => FoodItem,
   })
   @IsObject()
   foodItem: FoodItem;
@@ -40,8 +49,19 @@ export class CreateRecipeDto {
   preparationTime: number;
 
   @ApiProperty({
-    example: ['123e4567-e89b-12d3-a456-426614174000'],
-    description: 'IDs of recipe ingredients',
+    example: [
+      {
+        ingredientId: '123e4567-e89b-12d3-a456-426614174000',
+        quantity: 100,
+      },
+      {
+        ingredientId: '456e4567-e89b-12d3-a456-426614174111',
+        quantity: 50,
+      },
+    ],
+    description: 'List of ingredients for the recipe',
+    type: [AddIngredientToRecipeDto],
+    isArray: true,
   })
   @IsArray()
   @ValidateNested({ each: true })
