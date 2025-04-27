@@ -46,4 +46,11 @@ export class RecipesController {
   getRecipeByFoodItem(@Param('foodItemId') foodItemId: string) {
     return this.recipesService.getRecipeByFoodItem(foodItemId);
   }
+
+  @Get()
+  @ApiOperation({ summary: 'Get all recipes' })
+  @ApiResponse({ status: 200, description: 'List of recipes.' })
+  findAll() {
+    return this.recipesService.findAll();
+  }
 }

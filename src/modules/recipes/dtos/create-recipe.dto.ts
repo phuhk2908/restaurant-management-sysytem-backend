@@ -1,5 +1,15 @@
-import { IsArray, IsInt, IsOptional, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsInt,
+  IsObject,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { AddIngredientToRecipeDto } from './add-ingredient-to-recipe.dto';
+import { Type } from 'class-transformer';
+import { FoodItem } from 'src/modules/food-items/entities/food-item.entity';
 
 export class CreateRecipeDto {
   @ApiProperty({
@@ -15,8 +25,8 @@ export class CreateRecipeDto {
     example: '321e4567-e89b-12d3-a456-426614174000',
     description: 'ID of the food item',
   })
-  @IsString()
-  foodItemId: string;
+  @IsObject()
+  foodItem: FoodItem;
 
   @ApiProperty({
     example: 'Mix ingredients and bake for 20 minutes.',
@@ -34,6 +44,7 @@ export class CreateRecipeDto {
     description: 'IDs of recipe ingredients',
   })
   @IsArray()
-  @IsString({ each: true })
-  recipeIngredientIds: string[];
+  @ValidateNested({ each: true })
+  @Type(() => AddIngredientToRecipeDto)
+  ingredients: AddIngredientToRecipeDto[];
 }

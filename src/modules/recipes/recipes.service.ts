@@ -19,8 +19,17 @@ export class RecipesService {
   ) {}
 
   async createRecipe(createRecipeDto: CreateRecipeDto): Promise<Recipe> {
-    const recipe = this.recipeRepository.create(createRecipeDto);
-    return this.recipeRepository.save(recipe);
+    const { ingredients, ...recipeData } = createRecipeDto;
+    const recipe = this.recipeRepository.create(recipeData);
+    await this.recipeRepository.save(recipe);
+
+    for (const ingredient of ingredients) {
+      await this.addIngredientToRecipe(recipe.id, {
+        ingredientId: ingredient.ingredientId,
+        quantity: ingredient.quantity,
+      });
+    }
+    return recipe;
   }
 
   async addIngredientToRecipe(
@@ -52,7 +61,17 @@ export class RecipesService {
 
   async getRecipeByFoodItem(foodItemId: string): Promise<Recipe | null> {
     return this.recipeRepository.findOne({
-      where: { foodItem: { id: foodItemId } },
+      where: {
+        foodItem: {
+          id: foodItemId,
+        },
+      },
+      relations: ['recipeIngredients', 'recipeIngredients.ingredient'],
+    });
+  }
+
+  async findAll(): Promise<Recipe[]> {
+    return this.recipeRepository.find({
       relations: ['recipeIngredients', 'recipeIngredients.ingredient'],
     });
   }

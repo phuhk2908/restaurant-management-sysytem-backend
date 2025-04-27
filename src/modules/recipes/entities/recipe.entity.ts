@@ -6,6 +6,7 @@ import {
   JoinColumn,
   Column,
   OneToMany,
+  Index,
 } from 'typeorm';
 import { RecipeIngredient } from './recipe-ingredient.entity';
 
@@ -16,6 +17,7 @@ export class Recipe {
 
   @OneToOne(() => FoodItem, (foodItem) => foodItem.recipe)
   @JoinColumn()
+  @Index()
   foodItem: FoodItem;
 
   @Column('text')
