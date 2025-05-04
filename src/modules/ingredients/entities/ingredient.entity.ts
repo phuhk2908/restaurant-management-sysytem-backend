@@ -27,9 +27,12 @@ export class Ingredient {
   @OneToMany(
     () => RecipeIngredient,
     (recipeIngredient) => recipeIngredient.ingredient,
+    { onDelete: 'CASCADE' },
   )
   recipeIngredients: RecipeIngredient[];
 
-  @OneToMany(() => Inventory, (inventory) => inventory.ingredient)
+  @OneToMany(() => Inventory, (inventory) => inventory.ingredient, {
+    onDelete: 'CASCADE',
+  })
   inventories: Inventory[];
 }

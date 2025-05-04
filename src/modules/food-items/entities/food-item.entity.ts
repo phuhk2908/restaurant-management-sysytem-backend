@@ -31,9 +31,13 @@ export class FoodItem {
   @Column({ nullable: true })
   imageUrl: string;
 
-  @OneToOne(() => Recipe, (recipe) => recipe.foodItem)
+  @OneToOne(() => Recipe, (recipe) => recipe.foodItem, {
+    onDelete: 'CASCADE',
+  })
   recipe: Recipe;
 
-  @OneToMany(() => OrderItem, (orderItem) => orderItem.foodItem)
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.foodItem, {
+    onDelete: 'CASCADE',
+  })
   orderItems: OrderItem[];
 }

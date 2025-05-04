@@ -5,7 +5,7 @@ export enum TableStatus {
   AVAILABLE = 'available',
   OCCUPIED = 'occupied',
   RESERVED = 'reserved',
-  CLEANING = 'cleaning',
+  MAINTENANCE = 'maintenance',
 }
 
 @Entity()
@@ -29,7 +29,7 @@ export class Table {
   @Column({ default: 2 })
   capacity: number;
 
-  @OneToMany(() => Order, (order) => order.table)
+  @OneToMany(() => Order, (order) => order.table, { onDelete: 'CASCADE' })
   orders: Order[];
 
   @Column({ nullable: true })

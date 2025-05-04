@@ -31,6 +31,14 @@ export class TablesController {
     return this.tablesService.findAll();
   }
 
+  @Get(':id')
+  @ApiOperation({ summary: 'Get table by ID' })
+  @ApiParam({ name: 'id', description: 'ID of the table' })
+  @ApiResponse({ status: 200, description: 'Table found.' })
+  findById(@Param('id') id: string) {
+    return this.tablesService.findById(id);
+  }
+
   @Get('available')
   @ApiOperation({ summary: 'Get all available tables' })
   @ApiResponse({ status: 200, description: 'List of available tables.' })

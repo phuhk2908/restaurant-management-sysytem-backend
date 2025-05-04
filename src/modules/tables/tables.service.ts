@@ -22,6 +22,10 @@ export class TablesService {
     return this.tableRepository.find();
   }
 
+  async findById(id: string): Promise<Table | null> {
+    return this.tableRepository.findOne({ where: { id } });
+  }
+
   async findAvailableTables(): Promise<Table[]> {
     return this.tableRepository.find({
       where: { status: TableStatus.AVAILABLE },

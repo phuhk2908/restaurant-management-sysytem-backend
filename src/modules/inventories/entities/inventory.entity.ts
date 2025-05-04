@@ -7,7 +7,9 @@ export class Inventory {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => Ingredient, (ingredient) => ingredient.inventories)
+  @ManyToOne(() => Ingredient, (ingredient) => ingredient.inventories, {
+    onDelete: 'CASCADE',
+  })
   ingredient: Ingredient;
 
   @Column('decimal', { precision: 10, scale: 2 })

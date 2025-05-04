@@ -27,7 +27,10 @@ export class Order {
   @Column({ nullable: true })
   tableId: string;
 
-  @ManyToOne(() => Table, (table) => table.orders, { nullable: true })
+  @ManyToOne(() => Table, (table) => table.orders, {
+    nullable: true,
+    onDelete: 'CASCADE',
+  })
   table: Table;
 
   @Column({ nullable: true })
@@ -54,6 +57,8 @@ export class Order {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => OrderItem, (orderItem) => orderItem.order)
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.order, {
+    onDelete: 'CASCADE',
+  })
   items: OrderItem[];
 }

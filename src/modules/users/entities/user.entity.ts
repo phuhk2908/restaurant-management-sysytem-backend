@@ -44,7 +44,9 @@ export class User {
   @CreateDateColumn()
   createdAt: Date;
 
-  @OneToMany(() => Notification, (notification) => notification.recipient)
+  @OneToMany(() => Notification, (notification) => notification.recipient, {
+    onDelete: 'CASCADE',
+  })
   notifications: Notification[];
 
   @BeforeInsert()

@@ -15,7 +15,9 @@ export class Recipe {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @OneToOne(() => FoodItem, (foodItem) => foodItem.recipe)
+  @OneToOne(() => FoodItem, (foodItem) => foodItem.recipe, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn()
   @Index()
   foodItem: FoodItem;
@@ -29,6 +31,9 @@ export class Recipe {
   @OneToMany(
     () => RecipeIngredient,
     (recipeIngredient) => recipeIngredient.recipe,
+    {
+      onDelete: 'CASCADE',
+    },
   )
   recipeIngredients: RecipeIngredient[];
 }

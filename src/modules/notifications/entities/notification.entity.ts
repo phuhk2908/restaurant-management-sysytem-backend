@@ -31,7 +31,10 @@ export class Notification {
   @Column({ default: false })
   isRead: boolean;
 
-  @ManyToOne(() => User, (user) => user.notifications, { nullable: true })
+  @ManyToOne(() => User, (user) => user.notifications, {
+    nullable: true,
+    onDelete: 'CASCADE',
+  })
   recipient: User;
 
   @CreateDateColumn()

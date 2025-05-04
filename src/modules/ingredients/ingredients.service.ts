@@ -57,7 +57,7 @@ export class IngredientsService {
     return this.ingredientRepository.findOne({ where: { id } });
   }
 
-  async remove(id: string): Promise<void> {
+  async remove(id: string): Promise<any> {
     // Check if ingredient is used in any recipes
     const ingredient = await this.ingredientRepository.findOne({
       where: { id },
@@ -73,6 +73,8 @@ export class IngredientsService {
     }
 
     await this.ingredientRepository.delete(id);
+
+    return { message: 'Ingredient deleted successfully' };
   }
 
   async searchByName(name: string): Promise<Ingredient[]> {
