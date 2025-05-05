@@ -1,5 +1,5 @@
 import { Unit } from '../entities/ingredient.entity';
-import { IsEnum, IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsNumber, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateIngredientDto {
@@ -23,4 +23,9 @@ export class CreateIngredientDto {
   @IsOptional()
   @IsString()
   category?: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsNumber()
+  initialQuantity?: number;
 }

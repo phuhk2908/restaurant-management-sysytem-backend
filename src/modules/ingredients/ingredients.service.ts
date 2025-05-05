@@ -17,15 +17,16 @@ export class IngredientsService {
     private ingredientRepository: Repository<Ingredient>,
     @InjectRepository(Inventory)
     private inventoryRepository: Repository<Inventory>,
-  ) {}
+  ) { }
 
   async create(createIngredientDto: CreateIngredientDto): Promise<Ingredient> {
-    const ingredient = this.ingredientRepository.create(createIngredientDto);
+    const { initialQuantity, ...ingredientData } = createIngredientDto
+    const ingredient = this.ingredientRepository.create(ingredientData);
     const savedIngredient = await this.ingredientRepository.save(ingredient);
 
     await this.inventoryRepository.save({
       ingredient: savedIngredient,
-      quantity: 0,
+      quantity: initialQuantity || 0,
       lastUpdated: new Date(),
     });
 
